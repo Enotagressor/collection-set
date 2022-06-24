@@ -28,12 +28,11 @@ public class EmployeeController {
                       @RequestParam("lastName") String lastName) {
         Employee employee = new Employee(firstName, lastName);
         try {
-
             employeeService.addEmployee(employee);
             return "Employee added";
         } catch (EmployeeAlreadyAddedException e) {
             return "Такой сотрудник уже существует!";
-        } catch (EmployeeStoragesFullException e){
+        } catch (EmployeeStoragesFullException e) {
             return "Рабочих мест больше нет, увольте самого бесполезного!";
         }
     }
@@ -42,15 +41,14 @@ public class EmployeeController {
     public String remove(@RequestParam("firstName") String firstName,
                          @RequestParam("lastName") String lastName) {
         Employee employee = new Employee(firstName, lastName);
-            employeeService.removeEmployee(employee);
-            return "Employee removed";
-
+        employeeService.removeEmployee(employee);
+        return "Employee removed";
     }
 
     @GetMapping("/find")
     public String find(@RequestParam("firstName") String firstName,
                        @RequestParam("lastName") String lastName) {
         Employee employee = new Employee(firstName, lastName);
-            return employeeService.findEmployee(employee);
+        return employeeService.findEmployee(employee);
     }
 }

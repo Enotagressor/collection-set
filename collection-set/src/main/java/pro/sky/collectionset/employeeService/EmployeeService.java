@@ -6,14 +6,18 @@ import pro.sky.collectionset.exception.EmployeeAlreadyAddedException;
 import pro.sky.collectionset.exception.EmployeeNotFoundException;
 import pro.sky.collectionset.exception.EmployeeStoragesFullException;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class EmployeeService {
-    private final Employee[] employee;
+    private final List<Employee> employee;
+    private static final Integer integer = 10;
 
     public EmployeeService() {
-        this.employee = new Employee[10];
+        this.employee = new ArrayList<>(List.of());
     }
 
     public String hello() {
@@ -22,38 +26,26 @@ public class EmployeeService {
 
 
     public void addEmployee(Employee empl) {
-       Integer index = null;
-        for (int i = 0; i < employee.length; i++) {
-            if (employee[i] != null && Objects.equals(empl, employee[i])) {
-                throw new EmployeeAlreadyAddedException();
-            } else if(employee[i] == null){
-                index = i;
-                employee[i] = empl;
-                break;
-            }
-        }if(index == null){
-            throw new EmployeeStoragesFullException();
+        Integer index = null;
+        if (employee.contains(empl)) {
+            throw new EmployeeAlreadyAddedException();
+        } else {
+            index = employee.size();
         }
+        if (index >= integer) {
+            throw new EmployeeStoragesFullException();
+        } else employee.add(empl);
     }
 
     public void removeEmployee(Employee empl) {
-        Integer index = null;
-        for (int i = 0; i < employee.length; i++) {
-            if (employee[i] != null && Objects.equals(empl, employee[i])) {
-                employee[i] = null;
-                index = i;
-            }
-        }if (index == null){
+        if (!employee.contains(empl)) {
             throw new EmployeeNotFoundException();
-        }
+        } else employee.remove(empl);
     }
 
     public String findEmployee(Employee empl) {
-        for (int i = 0; i < employee.length; i++) {
-            if (employee[i] != null && Objects.equals(empl, employee[i])) {
-                return  employee[i].getFirstName() + " " + employee[i].getLastName();
-            }
-        }
-        throw new EmployeeNotFoundException();
+        if (employee.contains(empl)) {
+            return empl.getLastName() + " " + empl.getFirstName();
+        } else throw new EmployeeNotFoundException();
     }
 }
