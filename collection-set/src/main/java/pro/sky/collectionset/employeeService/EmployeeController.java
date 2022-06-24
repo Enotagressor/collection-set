@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.collectionset.empl.Employee;
 import pro.sky.collectionset.exception.EmployeeAlreadyAddedException;
-import pro.sky.collectionset.exception.EmployeeNotFoundException;
 import pro.sky.collectionset.exception.EmployeeStoragesFullException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -50,5 +51,9 @@ public class EmployeeController {
                        @RequestParam("lastName") String lastName) {
         Employee employee = new Employee(firstName, lastName);
         return employeeService.findEmployee(employee);
+    }
+    @GetMapping("/list")
+    public List<Employee> listEmployee() {
+        return employeeService.listEmployee();
     }
 }

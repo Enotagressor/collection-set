@@ -9,7 +9,6 @@ import pro.sky.collectionset.exception.EmployeeStoragesFullException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class EmployeeService {
@@ -47,5 +46,9 @@ public class EmployeeService {
         if (employee.contains(empl)) {
             return empl.getLastName() + " " + empl.getFirstName();
         } else throw new EmployeeNotFoundException();
+    }
+
+    public List<Employee> listEmployee() {
+        return employee;
     }
 }
